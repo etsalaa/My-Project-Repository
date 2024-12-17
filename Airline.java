@@ -1,42 +1,53 @@
-import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Airline {
-    private int numberOfAirplanes;
-    private int numberOfDestination;
-    private int[][] locations;
+    // Ιδιότητες
+    private List<Airports> airports;   
+    private List<Airplane> airplanes;   
+    private String airline;            
 
-   private Scanner scanner = new Scanner(System.in);
+   
+    public Airline(String airline) {
+        this.airline = airline;
+        this.airports = new ArrayList<>();
+        this.airplanes = new ArrayList<>();
+    }
+
+   
+    public void setNumberOfAirplanes(Airplane airplane) {
+        airplanes.add(airplane);
+    }
+
+  
+    public List<Airplane> getNumberOfAirplanes() {
+        return airplanes;
+    }
+
     
-  public void setNumberOfAirplanes() {
-        System.out.print("Emfanise arithmo aeroplanwn: ");
-        this.numberOfAirplanes = scanner.nextInt();
-      
-        public int getNumberOfAirplanes() {
-        return this.numberOfAirplanes;
-            
-            public void setNumberOfDestinations() {
-        System.out.print("Emfanise ton arithmo twn proorismwn: ");
-        this.numberOfDestinations = scanner.nextInt();
+    public void setNumberOfDestinations(Airports airport) {
+        airports.add(airport);
+    }
 
-              public int getNumberOfDestinations() {
-        return this.numberOfDestinations;
-                  public void setLocations() {
-        locations = new int[numberOfDestinations][3]; 
-        System.out.println("Emfanise tis topothesies (gewgrafiko platos,, gewgrafiko mikos) kai sinolo episkepsewn :");
-        for (int i = 0; i < numberOfDestinations; i++) {
-            System.out.print("Topothesia " + (i + 1) + " (platos, mikos, apaitiseis ");
-            locations[i][0] = scanner.nextInt();
-            locations[i][1] = scanner.nextInt(); 
-            locations[i][2] = scanner.nextInt(); 
 
-         public int[][] getLocations() {
-           return this.locations;
-public void printAirlineInfo() {
-        System.out.println("Arithmos aeroplanwn: " + this.numberOfAirplanes);
-        System.out.println("Arithmos proorismwn: " + this.numberOfDestinations);
-        System.out.println("Topothesia kai apaitiseis:");
-        for (int i = 0; i < numberOfDestinations; i++) {
-            System.out.println("Topothesia " + (i + 1) + ": Platos=" + locations[i][0] + 
-                               ", Mikoa=" + locations[i][1] + 
-                               ", Apaitiseis=" + locations[i][2]);
-            
+    public List<Airports> getNumberOfDestinations() {
+        return airports;
+    }
+
+   
+    public void setWantedLocations(Airports airport) {
+        airports.add(airport);
+    }
+
+   
+    public List<Airports> getWantedLocations() {
+        return airports;
+    }
+
+    @Override
+    public String toString() {
+        return "Airline: " + airline + "\n" +
+               "Airplanes: " + airplanes + "\n" +
+               "Airports: " + airports;
+    }
+}
