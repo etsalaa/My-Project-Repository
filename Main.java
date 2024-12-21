@@ -1,6 +1,9 @@
 import java.util.Scanner;
 
 public class Main {
+    public static volatile int numberOfAirplanes = -1;  // Αριθμός αεροπλάνων
+    public static volatile int numberOfDestinations = -1;  // Αριθμός προορισμών
+    private static final Object lock = new Object();  // Κοινό lock για συγχρονισμό
 
     public static void main (String [] args) {
         //eisagwgi dedomenwn
@@ -10,18 +13,64 @@ public class Main {
         Airports airports = new Airports();
         Login userlogin = new Login();
         HarvesineDistance hd = new HarvesineDistance();
-        System.out.println("Δώσε αριθμό διαθέσιμων αεροπλάνων:");
-        airline.setNumberOfAirplanes();
-        int airplanesNumber = airline.getNumberOfAirplanes();
-        System.out.println("Δώσε με την σειρά: Άυξοντα αριθμό αεροπλάνου, χωρητικότητα καυσίμων, το αεροδρόμιο που βρίσκεται και τις πτήσεις που μπορεί να κάνει:");
+        
+         // Εμφανίζεται το παράθυρο για τα αεροπλάνα
+        OptionPaneDemoNumberOfAirplanes demoAirplanes = new OptionPaneDemoNumberOfAirplanes(null);
+        demoAirplanes.mainImpl();
+        
+        demoAirplanes.setInputListener(input -> {
+            synchronized (lock) {
+                numberOfAirplanes = input; // Αποθηκεύουμε την απάντηση
+                System.out.println("Ο αριθμός αεροπλάνων που αποθηκεύτηκε είναι: " + numberOfAirplanes);
+                //    airline.setNumberOfAirplanes(numberOfAirplanes); (αλλα πρωτα να διορθωθεί)
+                // int numberOfAirplanes = airline.getNumberOfAirplanes(); (χρειάζεται;)
+                lock.notifyAll(); // Ενημερώνουμε ότι ολοκληρώθηκε η εισαγωγή
+            }
+        });
+        
+        //// Thread που περιμένει να απαντηθεί το πρώτο παράθυρο (αεροπλάνα) και μετά ανοίγει το δεύτερο (προορισμοί)
+        Thread destinationsThread = new Thread(() -> {
+            synchronized (lock) {
+                try {
+                    while (numberOfAirplanes == -1) {
+                        System.out.println("Αναμονή για την εισαγωγή αριθμού αεροπλάνων...");
+                        lock.wait(); // Περιμένει μέχρι να απαντηθεί το πρώτο παράθυρο
+                    }
+
+                    // Μόλις απαντηθεί, ανοίγει το δεύτερο παράθυρο
+                    OptionPaneDemoNumberOfDestinations demoDestinations = new OptionPaneDemoNumberOfDestinations(null);
+                    demoDestinations.mainImpl();
+                    demoDestinations.setInputListener(input -> {
+                        synchronized (lock) {
+                            numberOfDestinations = input; // Αποθηκεύουμε την απάντηση
+                            System.out.println("Ο αριθμός προορισμών που αποθηκεύτηκε είναι: " + numberOfDestinations);
+                            // airline.setNumberOfDestinations(numberOfDestinations); (αλλα πρωτα να διορθωθεί)
+                            // int numberOfDest = airline.getNumberOfDestinations(); (χρειάζεται;)
+                        }
+                    });
+                } catch (InterruptedException e) {
+                    System.out.println("Το thread διακόπηκε.");
+                }
+            }
+        });
+        destinationsThread.start(); // Ξεκινάμε το thread για τους προορισμούς
+    }
+}
+
+
+        //!!!Εδω μπαίνει ο κώδικας interface για Airplane Details σε μια επαναληψη for για όσα αεροπλάνα εχουμε.
+       // Αυτά τα 3 να σβηστουν οταν μπει το αντιστοιχο κομματι  System.out.println("Δώσε με την σειρά: Άυξοντα αριθμό αεροπλάνου, χωρητικότητα καυσίμων, το αεροδρόμιο που βρίσκεται και τις πτήσεις που μπορεί να κάνει:");
         airplane.setAirplaneDetails();
         int[20][4] airplane = get.AirplaneDetails();
-        System.out.println("Δώσε τον αριθμό των προορισμών που θες να επισκέπτονται τα αεροπλάνα:");
-        airline.setNumberOfDestinations();
-        int numberOfDest = airline.getNumberOfDestinations();
+
+    
+        //!!!Εδω μπαίνει ο κώδικας interface για τους προορισμούς
+        // Να σβηστουν οταν μπει το αντιστοιχο κομματι 
         System.out.println("Δώσε με την σειρά: Τις τοποθεσίες που θέλεις να επισκεφτείς και πόσες φορές θέλεις να επισκεφτείς την κάθε τοποθεσία:");
         airline.setWantedLocations();
         int[10][2] locations = get.WantedLocations();
+
+
         int[][] KilometersDistance;
         //gemizei pinaka me apostasis apo kathe perioxi se kathe perioxi
         for (int row = 1; int numberOfDest; row++) {
