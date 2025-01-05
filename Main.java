@@ -1,3 +1,5 @@
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -10,9 +12,8 @@ public class Main {
         Scanner s = new Scanner(System.in);
         Airline airline = new Airline();
         Airplane airplane = new Airplane();
-        Airports airports = new Airports();
-        Login userlogin = new Login();
-        HarvesineDistance hd = new HarvesineDistance();
+        Airport airports = new Airport();
+        HaversineDistance hd = new HaversineDistance();
         
          // Εμφανίζεται το παράθυρο για τα αεροπλάνα
         OptionPaneDemoNumberOfAirplanes demoAirplanes = new OptionPaneDemoNumberOfAirplanes(null);
@@ -22,8 +23,7 @@ public class Main {
             synchronized (lock) {
                 numberOfAirplanes = input; // Αποθηκεύουμε την απάντηση
                 System.out.println("Ο αριθμός αεροπλάνων που αποθηκεύτηκε είναι: " + numberOfAirplanes);
-                //    airline.setNumberOfAirplanes(numberOfAirplanes); (αλλα πρωτα να διορθωθεί)
-                // int numberOfAirplanes = airline.getNumberOfAirplanes(); (χρειάζεται;)
+                airline.setNumberOfAirplanes(numberOfAirplanes);
                 lock.notifyAll(); // Ενημερώνουμε ότι ολοκληρώθηκε η εισαγωγή
             }
         });
@@ -44,8 +44,7 @@ public class Main {
                         synchronized (lock) {
                             numberOfDestinations = input; // Αποθηκεύουμε την απάντηση
                             System.out.println("Ο αριθμός προορισμών που αποθηκεύτηκε είναι: " + numberOfDestinations);
-                            // airline.setNumberOfDestinations(numberOfDestinations); (αλλα πρωτα να διορθωθεί)
-                            // int numberOfDest = airline.getNumberOfDestinations(); (χρειάζεται;)
+                            airline.setNumberOfDestinations(numberOfDestinations);
                         }
                     });
                 } catch (InterruptedException e) {
@@ -56,19 +55,30 @@ public class Main {
         destinationsThread.start(); // Ξεκινάμε το thread για τους προορισμούς
     }
 }
-
-
-        //!!!Εδω μπαίνει ο κώδικας interface για Airplane Details σε μια επαναληψη for για όσα αεροπλάνα εχουμε.
+        //etoimi lista me ta aerodromia apo ta opoia tha dialeksei o xristis
+        List<Airport> airports = Arrays.asList(
+            new Airport("Αθήνα", 37.9838, 23.7275,),
+            new Airport("Παρίσι", 48.8566, 2.3522),
+            new Airport("Λονδίνο", 51.5074, -0.1278),
+            new Airport("Μιλάνο", 45.4642, 9.1900),
+            new Airport("Βρυξέλλες", 50.8503, 4.3517),
+            new Airport("Βερολίνο", 52.5200, 13.4050),
+            new Airport("Στοκχόλμη", 59.3293, 18.0686),
+            new Airport("Όσλο", 59.9139, 10.7522),
+            new Airport("Μαδρίτη", 40.4168, -3.7038),
+            new Airport("Άμστερνταμ", 52.3676, 4.9041)
+        );
+        //!!!Εδω μπαίνει ο κώδικας interface για Airplane Details σε μια επαναληψη for για όσα αεροπλάνα εχουμε. An to valume!
        // Αυτά τα 3 να σβηστουν οταν μπει το αντιστοιχο κομματι  System.out.println("Δώσε με την σειρά: Άυξοντα αριθμό αεροπλάνου, χωρητικότητα καυσίμων, το αεροδρόμιο που βρίσκεται και τις πτήσεις που μπορεί να κάνει:");
-        airplane.setAirplaneDetails();
-        int[20][4] airplane = get.AirplaneDetails();
+        //airplane.setAirplaneDetails();
+        //int[20][4] airplane = get.AirplaneDetails();
 
     
         //!!!Εδω μπαίνει ο κώδικας interface για τους προορισμούς
         // Να σβηστουν οταν μπει το αντιστοιχο κομματι 
         System.out.println("Δώσε με την σειρά: Τις τοποθεσίες που θέλεις να επισκεφτείς και πόσες φορές θέλεις να επισκεφτείς την κάθε τοποθεσία:");
         airline.setWantedLocations();
-        int[10][2] locations = get.WantedLocations();
+        airline.getWantedLocations();
 
 
         int[][] KilometersDistance;
@@ -118,53 +128,3 @@ public class Main {
             for (int i = 0; i = 3; i++) {
                 System.out.println(finalDestinations[1][i]);
             }
-        }
-
-
-        public class HaversineDistance {
-
-            // Μέθοδος για τον υπολογισμό της απόστασης
-            public static double haversine(double lat1, double lon1, double lat2, double lon2) {
-                // Ακτίνα της Γης σε χιλιόμετρα
-                final double R = 6371.0;
-        
-                // Μετατροπή μοιρών σε ακτίνια
-                double lat1Rad = Math.toRadians(lat1);
-                double lon1Rad = Math.toRadians(lon1);
-                double lat2Rad = Math.toRadians(lat2);
-                double lon2Rad = Math.toRadians(lon2);
-        
-                // Διαφορές συντεταγμένων
-                double dLat = lat2Rad - lat1Rad;
-                double dLon = lon2Rad - lon1Rad;
-        
-                // Υπολογισμός τύπου Haversine
-                double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                           Math.cos(lat1Rad) * Math.cos(lat2Rad) *
-                           Math.sin(dLon / 2) * Math.sin(dLon / 2);
-                double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        
-                // Τελική απόσταση
-                return R * c;
-            }
-        
-            public static void main(String[] args) {
-                // Συντεταγμένες Αθήνας
-                double lat1 = 37.9838;
-                double lon1 = 23.7275;
-        
-                // Συντεταγμένες Θεσσαλονίκης
-                double lat2 = 40.6401;
-                double lon2 = 22.9444;
-        
-                // Υπολογισμός απόστασης
-                double distance = haversine(lat1, lon1, lat2, lon2);
-        
-                // Εμφάνιση αποτελέσματος
-                System.out.printf("Η απόσταση μεταξύ Αθήνας και Θεσσαλονίκης είναι %.2f km.%n", distance);
-            }
-        }
-        
-
-    }
-}

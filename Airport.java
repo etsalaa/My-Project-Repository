@@ -2,14 +2,22 @@ public class Airport {
     private String name; // Όνομα αεροδρομίου
     private double latitude; // Γεωγραφικό πλάτος
     private double longitude; // Γεωγραφικό μήκος
-    private int capacity; // Μέγιστη χωρητικότητα αεροπλάνων
+    private int visits; // Μέγιστη χωρητικότητα αεροπλάνων
 
-    // Κατασκευαστής
-    public Airport(String name, double latitude, double longitude, int capacity) {
+    public Airport() {}
+
+    public Airport(String name, double latitude, double longitude) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.capacity = capacity;
+    }
+
+    // Κατασκευαστής
+    public Airport(String name, double latitude, double longitude, int visits) {
+        this.name = name;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.visits = visits;
     }
 
     // Getters και Setters
@@ -37,17 +45,17 @@ public class Airport {
         this.longitude = longitude;
     }
 
-    public int getCapacity() {
-        return capacity;
+    public int getVisits() {
+        return visits;
     }
 
     public void setCapacity(int capacity) {
-        this.capacity = capacity;
+        this.visits = visits;
     }
 
     // Μέθοδος για εμφάνιση πληροφοριών
     public void displayInfo() {
         System.out.printf("Αεροδρόμιο: %s, Συντεταγμένες: (%.2f, %.2f), Χωρητικότητα: %d%n",
-                name, latitude, longitude, capacity);
+                name, latitude, longitude, visits);
     }
 }

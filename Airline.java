@@ -3,11 +3,14 @@ import java.util.List;
 
 public class Airline {
     // Ιδιότητες
-    private List<Airports> airports;   
+    private List<Airport> airports;   
     private List<Airplane> airplanes;   
-    private String airline;            
+    private String airline;   
+    private int numberOfAirplanes;  
+    private int numberOfDest;       
 
-   
+   public Airline() { }
+
     public Airline(String airline) {
         this.airline = airline;
         this.airports = new ArrayList<>();
@@ -15,32 +18,32 @@ public class Airline {
     }
 
    
-    public void setNumberOfAirplanes(Airplane airplane) {
-        airplanes.add(airplane);
+    public void setNumberOfAirplanes(int numberOfAirplanes) {
+        this.numberOfAirplanes = numberOfAirplanes;
     }
 
   
-    public List<Airplane> getNumberOfAirplanes() {
-        return airplanes;
+    public int getNumberOfAirplanes() {
+        return this.numberOfAirplanes;
     }
 
     
-    public void setNumberOfDestinations(Airports airport) {
-        airports.add(airport);
+    public void setNumberOfDestinations(int numberOfDest) {
+        this.numberOfDest = numberOfDest;
     }
 
 
-    public List<Airports> getNumberOfDestinations() {
-        return airports;
-    }
-
-   
-    public void setWantedLocations(Airports airport) {
-        airports.add(airport);
+    public int getNumberOfDestinations() {
+        return this.numberOfDest;
     }
 
    
-    public List<Airports> getWantedLocations() {
+    public void setWantedLocations(Airport airport) {
+        airports.add(airport);
+    }
+
+   
+    public List<Airport> getWantedLocations() {
         return airports;
     }
 
