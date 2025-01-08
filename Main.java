@@ -15,6 +15,39 @@ public class Main {
         Airport airports = new Airport();
         HaversineDistance hd = new HaversineDistance();
         
+        //μενού για register και login
+        Login loginSystem = new Login();
+        Register registerSystem = new Register(loginSystem);
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+          System.out.println("1. Login");
+          System.out.println("2. Register");
+          System.out.println("3. Exit");
+          System.out.print("Pick an option");
+          int choice = scanner.nextInt();
+          scanner.nextLine();
+
+          switch (choice) {
+               case 1:
+                    System.out.print("Enter the name of the company: ");
+                    String username = scanner.nextLine();
+                    System.out.print("Enter the password: ");
+                    String password = scanner.nextLine();
+                    loginSystem.authenticate(username, password);
+                    break;
+               case 2: 
+                    registerSystem.createUsernameAndPassword();
+                    break;
+               case 3:
+                    System.out.println("Exit from the system");
+                    scanner.close();
+                    System.exit(0);
+               default:
+                    System.out.println("Unvalid option. Try again.");
+          } 
+       }       
+        
          // Εμφανίζεται το παράθυρο για τα αεροπλάνα
         OptionPaneDemoNumberOfAirplanes demoAirplanes = new OptionPaneDemoNumberOfAirplanes(null);
         demoAirplanes.mainImpl();
