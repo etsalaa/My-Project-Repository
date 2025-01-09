@@ -8,6 +8,8 @@ public class Main {
     private static final Object lock = new Object();  // Κοινό lock για συγχρονισμό
 
     public static void main (String [] args) {
+        //Σύνδεση ή εγγραφή
+        
         //eisagwgi dedomenwn
         Scanner s = new Scanner(System.in);
         Airline airline = new Airline();
@@ -90,7 +92,7 @@ public class Main {
 }
         //etoimi lista me ta aerodromia apo ta opoia tha dialeksei o xristis
         List<Airport> airports = Arrays.asList(
-            new Airport("Αθήνα", 37.9838, 23.7275,),
+            new Airport("Αθήνα", 37.9838, 23.7275),
             new Airport("Παρίσι", 48.8566, 2.3522),
             new Airport("Λονδίνο", 51.5074, -0.1278),
             new Airport("Μιλάνο", 45.4642, 9.1900),
@@ -101,6 +103,8 @@ public class Main {
             new Airport("Μαδρίτη", 40.4168, -3.7038),
             new Airport("Άμστερνταμ", 52.3676, 4.9041)
         );
+
+
         //!!!Εδω μπαίνει ο κώδικας interface για Airplane Details σε μια επαναληψη for για όσα αεροπλάνα εχουμε. An to valume!
        // Αυτά τα 3 να σβηστουν οταν μπει το αντιστοιχο κομματι  System.out.println("Δώσε με την σειρά: Άυξοντα αριθμό αεροπλάνου, χωρητικότητα καυσίμων, το αεροδρόμιο που βρίσκεται και τις πτήσεις που μπορεί να κάνει:");
         //airplane.setAirplaneDetails();
@@ -116,7 +120,7 @@ public class Main {
 
         int[][] KilometersDistance;
         //gemizei pinaka me apostasis apo kathe perioxi se kathe perioxi
-        for (int row = 1; int numberOfDest; row++) {
+        for (int row = 1; row < numberOfDest; row++) {
             for (int column = 0; int numberOfDest; column++) {
                 KilometersDistance[row][column] = hd.haversine(GeoLocation[row][1], GeoLocation[row][2], GeoLocation[column][1], GeoLocation[column][2]);
             }
@@ -129,7 +133,7 @@ public class Main {
             int i = 0;
             finalDestinations[plane][i] = airplane[plane][3]; //to kathe aeroplano ksekinaei apo opou eixe meinei tin proigoumeni fora
             i+=1;
-            while airplane[plane][4] != 0 { //oso oi ptiseis pou mporei na kanei to aeroplano den einai 0 tote
+            while (airplane[plane][4]) != 0 { //oso oi ptiseis pou mporei na kanei to aeroplano den einai 0 tote
                     for (int column = 0; column < KilometersDistance[airplane[plane][3]].length; column++) {
                         if ((KilometersDistance[airplane[plane][3]][column] < min) && (KiliometersDistance[airplane[plane][3]][column] != 0)) { //vriskei min apostasi
                             min = KilometersDistance[airplane[plane][3]][column];
