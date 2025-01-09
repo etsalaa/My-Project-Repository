@@ -100,12 +100,33 @@ public class Main2 {
         destinationsThread.start(); // Ξεκινάμε το thread για τους προορισμούς
     }
 }
+         // Δημιουργία πίνακα αεροδρομίων (αντικείμενα τύπου Airport)
+         Airport[] airports = {
+            new Airport("Αθήνα", 37.9838, 23.7275),
+            new Airport("Παρίσι", 48.8566, 2.3522),
+            new Airport("Λονδίνο", 51.5074, -0.1278),
+            new Airport("Μιλάνο", 45.4642, 9.1900),
+            new Airport("Βρυξέλλες", 50.8503, 4.3517),
+            new Airport("Βερολίνο", 52.5200, 13.4050),
+            new Airport("Στοκχόλμη", 59.3293, 18.0686),
+            new Airport("Όσλο", 59.9139, 10.7522),
+            new Airport("Μαδρίτη", 40.4168, -3.7038),
+            new Airport("Άμστερνταμ", 52.3676, 4.9041)
+        };
 
+        // Δημιουργία δισδιάστατου πίνακα String για αποθήκευση των δεδομένων
+        String[][] airportArray = new String[airports.length][3];
 
+        // Γέμισμα του πίνακα
+        for (int i = 0; i < airports.length; i++) {
+            airportArray[i][0] = airports[i].getName();                // Όνομα
+            airportArray[i][1] = String.valueOf(airports[i].getLatitude());  // Γεωγραφικό Πλάτος
+            airportArray[i][2] = String.valueOf(airports[i].getLongitude()); // Γεωγραφικό Μήκος
+        }
         //!!!Εδω μπαίνει ο κώδικας interface για Airplane Details σε μια επαναληψη for για όσα αεροπλάνα εχουμε.
        // Αυτά τα 3 να σβηστουν οταν μπει το αντιστοιχο κομματι  System.out.println("Δώσε με την σειρά: Άυξοντα αριθμό αεροπλάνου, χωρητικότητα καυσίμων, το αεροδρόμιο που βρίσκεται και τις πτήσεις που μπορεί να κάνει:");
-
-
+    insertedAirports[numberOfDestinations] int;
+    for (i=0; i=numberOfDestinations; i++) {
        JFrame frame = new JFrame("Flight Destinations");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 300);
@@ -118,9 +139,8 @@ public class Main2 {
         panel.add(titleLabel, BorderLayout.NORTH);
 
         String[] destinations = {
-            "London", "Paris", "Barcelona", "Copenhagen", "Rome",
-            "Athens", "Moscow", "Bucharest", "Stockholm", "Berlin",
-            "Geneva", "Vienna"
+            "1. Αθήνα", "2. Παρίσι", "3. Λονδίνο", "4. Μιλάνο", "5. Βρυξέλλες",
+            "6. Βερολίνο", "7. Στοκχόλμη", "8. Όσλο", "9. Μαδρίτη", "10. Άμστερνταμ"
         };
         JList<String> destinationList = new JList<>(destinations);
         destinationList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -140,6 +160,7 @@ public class Main2 {
                 String selectedDestination = destinationList.getSelectedValuesList();
                 if (selectedDestination != null) {
                     JOptionPane.showMessageDialog(frame, "You selected: " + String.join(", ", selectedDestinations));
+                    insertedAirports[i] = selectedDestination;
                 } else {
                     JOptionPane.showMessageDialog(frame, "Please select a destination.");
                 }
@@ -149,6 +170,7 @@ public class Main2 {
         frame.add(panel);
 
         frame.setVisible(true);
+    }
     
     
         //!!!Εδω μπαίνει ο κώδικας interface για τους προορισμούς

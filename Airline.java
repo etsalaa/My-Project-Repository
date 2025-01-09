@@ -3,8 +3,7 @@ import java.util.List;
 
 public class Airline {
     // Ιδιότητες
-    private List<Airport> airports;   
-    private List<Airplane> airplanes;   
+    private List<Airport> airports;  
     private String airline;   
     private int numberOfAirplanes;  
     private int numberOfDest;       
@@ -14,7 +13,6 @@ public class Airline {
     public Airline(String airline) {
         this.airline = airline;
         this.airports = new ArrayList<>();
-        this.airplanes = new ArrayList<>();
     }
 
    
@@ -50,7 +48,6 @@ public class Airline {
     @Override
     public String toString() {
         return "Airline: " + airline + "\n" +
-               "Airplanes: " + airplanes + "\n" +
                "Airports: " + airports;
     }
 }
