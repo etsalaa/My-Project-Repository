@@ -91,11 +91,6 @@ public class Main2 {
 
         //!!!Εδω μπαίνει ο κώδικας interface για Airplane Details σε μια επαναληψη for για όσα αεροπλάνα εχουμε.
        // Αυτά τα 3 να σβηστουν οταν μπει το αντιστοιχο κομματι  System.out.println("Δώσε με την σειρά: Άυξοντα αριθμό αεροπλάνου, χωρητικότητα καυσίμων, το αεροδρόμιο που βρίσκεται και τις πτήσεις που μπορεί να κάνει:");
-        airplane.setAirplaneDetails();
-        int[20][4] airplane = get.AirplaneDetails();
-        System.out.println("Δώσε τον αριθμό των προορισμών που θες να επισκέπτονται τα αεροπλάνα:");
-        airline.setNumberOfDestinations();
-        int numberOfDest = airline.getNumberOfDestinations();
 
     
         //!!!Εδω μπαίνει ο κώδικας interface για τους προορισμούς
