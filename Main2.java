@@ -2,6 +2,19 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 public class Main2 {
     public static volatile int numberOfAirplanes = -1;  // Αριθμός αεροπλάνων
     public static volatile int numberOfDestinations = -1;  // Αριθμός προορισμών
@@ -92,6 +105,51 @@ public class Main2 {
         //!!!Εδω μπαίνει ο κώδικας interface για Airplane Details σε μια επαναληψη for για όσα αεροπλάνα εχουμε.
        // Αυτά τα 3 να σβηστουν οταν μπει το αντιστοιχο κομματι  System.out.println("Δώσε με την σειρά: Άυξοντα αριθμό αεροπλάνου, χωρητικότητα καυσίμων, το αεροδρόμιο που βρίσκεται και τις πτήσεις που μπορεί να κάνει:");
 
+
+       JFrame frame = new JFrame("Flight Destinations");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 300);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+
+        JLabel titleLabel = new JLabel("Select your Destinations", JLabel.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        panel.add(titleLabel, BorderLayout.NORTH);
+
+        String[] destinations = {
+            "London", "Paris", "Barcelona", "Copenhagen", "Rome",
+            "Athens", "Moscow", "Bucharest", "Stockholm", "Berlin",
+            "Geneva", "Vienna"
+        };
+        JList<String> destinationList = new JList<>(destinations);
+        destinationList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        JScrollPane scrollPane = new JScrollPane(destinationList);
+        panel.add(scrollPane, BorderLayout.CENTER);
+
+        JButton selectButton = new JButton("Show Selections");
+        panel.add(selectButton, BorderLayout.SOUTH);
+
+        JLabel selectionLabel = new JLabel("", JLabel.CENTER);
+        selectionLabel.setFont(new Font("Arial", Font.ITALIC, 14));
+        panel.add(selectionLabel, BorderLayout.SOUTH);
+
+        selectButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedDestination = destinationList.getSelectedValuesList();
+                if (selectedDestination != null) {
+                    JOptionPane.showMessageDialog(frame, "You selected: " + String.join(", ", selectedDestinations));
+                } else {
+                    JOptionPane.showMessageDialog(frame, "Please select a destination.");
+                }
+            }
+        });
+
+        frame.add(panel);
+
+        frame.setVisible(true);
+    
     
         //!!!Εδω μπαίνει ο κώδικας interface για τους προορισμούς
         // Να σβηστουν οταν μπει το αντιστοιχο κομματι 
