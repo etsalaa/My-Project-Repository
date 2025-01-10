@@ -5,8 +5,6 @@ import java.util.Scanner;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class Main2 {
     public static volatile int numberOfAirplanes = -1;  // Αριθμός αεροπλάνων
@@ -71,7 +69,7 @@ public class Main2 {
             List<Airplane> aerodromia = new ArrayList<>();
             List<Integer> insertedAerodromia = new ArrayList<>();
     
-            Airport[] aerodromia = {
+            Airport[] airportsArray = {
                 new Airport("Αθήνα", "37.9838", "23.7275"),
                 new Airport("Παρίσι", "48.8566", "2.3522"),
                 new Airport("Λονδίνο", "51.5074", "-0.1278"),
@@ -85,20 +83,20 @@ public class Main2 {
             };
     
             int[] visitUpdates = new int[numberOfDestinations];
-            Arrays.fill(visitUpdates, 0); // Initialize with 0 visits for all destinations
-            int selectIndex;
+            Arrays.fill(visitUpdates, 0); // Αρχικοποίηση με 0 επισκέψεις για όλους τους προορισμούς
+
             for (int i = 0; i < numberOfDestinations; i++) {
                 JFrame frame = new JFrame("Flight Destinations");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setSize(400, 300);
-    
+
                 JPanel panel = new JPanel();
                 panel.setLayout(new BorderLayout());
-    
+
                 JLabel titleLabel = new JLabel("Select your Destinations", JLabel.CENTER);
                 titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
                 panel.add(titleLabel, BorderLayout.NORTH);
-    
+
                 String[] destinations = {
                     "1. Αθήνα", "2. Παρίσι", "3. Λονδίνο", "4. Μιλάνο", "5. Βρυξέλλες",
                     "6. Βερολίνο", "7. Στοκχόλμη", "8. Όσλο", "9. Μαδρίτη", "10. Άμστερνταμ"
@@ -107,54 +105,55 @@ public class Main2 {
                 destinationList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                 JScrollPane scrollPane = new JScrollPane(destinationList);
                 panel.add(scrollPane, BorderLayout.CENTER);
-    
+
                 JButton selectButton = new JButton("Show Selections");
                 panel.add(selectButton, BorderLayout.SOUTH);
-    
-                selectButton.addActionListener(e -> {
-                int selectedIndex = destinationList.getSelectedIndex();
-                if (selectedIndex != -1) {
-                    // Show a dialog to get the number of visits
-                    String visitCountInput = JOptionPane.showInputDialog(frame, 
-                        "How many times do you want to visit " + destinations[selectedIndex] + "?");
-    
-                    try {
-                        int visitCount = Integer.parseInt(visitCountInput); // Parse the number of visits
-                        if (visitCount > 0) {
-                            JOptionPane.showMessageDialog(frame, 
-                                "You selected: " + destinations[selectedIndex] + " with " + visitCount + " visits.");
-                        
-                            insertedAerodromia.add(selectedIndex); // Store the selected destination index
-                        visitUpdates[selectIndex] = visitCount; // Store the number of visits for the destination
-                    } else {
-                        JOptionPane.showMessageDialog(frame, 
-                            "Please enter a positive number of visits.");
-                    }
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(frame, 
-                        "Invalid input. Please enter a valid number.");
-                }
-            } else {
-                JOptionPane.showMessageDialog(frame, "Please select a destination.");
-            }
-        });
 
-        frame.add(panel);
-        frame.setVisible(true);
-    }
+                selectButton.addActionListener(e -> {
+                    int selectedIndex = destinationList.getSelectedIndex(); // Παίρνει την επιλογή του χρήστη
+                    if (selectedIndex != -1) {
+                        // Εμφανίζει διάλογο για εισαγωγή αριθμού επισκέψεων
+                        String visitCountInput = JOptionPane.showInputDialog(frame, 
+                        "How many times do you want to visit " + destinations[selectedIndex] + "?");
+
+                        try {
+                            int visitCount = Integer.parseInt(visitCountInput); // Μετατρέπει την είσοδο σε ακέραιο αριθμό
+                            if (visitCount > 0) {
+                                JOptionPane.showMessageDialog(frame, 
+                                "You selected: " + destinations[selectedIndex] + " with " + visitCount + " visits.");
+                    
+                                insertedAerodromia.add(selectedIndex); // Αποθηκεύει τον δείκτη της επιλεγμένης περιοχής
+                                visitUpdates[selectedIndex] = visitCount; // Αποθηκεύει τον αριθμό επισκέψεων για την περιοχή
+                            } else {
+                                JOptionPane.showMessageDialog(frame, 
+                                "Please enter a positive number of visits.");
+                            }
+                        } catch (NumberFormatException ex) {
+                            JOptionPane.showMessageDialog(frame, 
+                    "Invalid input. Please enter a valid number.");
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(frame, "Please select a destination.");
+                    }
+                });
+
+                frame.add(panel);
+                frame.setVisible(true);
+                }
+
 
         double[][] epiloges = new double[numberOfDestinations][2];
         for (int i = 0; i < insertedAerodromia.size(); i++) {
             int airportIndex = insertedAerodromia.get(i); // Get the index of the selected airport
-            String airportLatitude = aerodromia[airportIndex].getLatitude();  // Assuming these are String values
-            String airportLongitude = aerodromia[airportIndex].getLongitude(); // Assuming these are String values
+            String airportLatitude = airportsArray[airportIndex].getLatitude();  // Assuming these are String values
+            String airportLongitude = airportsArray[airportIndex].getLongitude(); // Assuming these are String values
             
             // Convert the String values to double using Double.parseDouble
             try {
                 epiloges[i][0] = Double.parseDouble(airportLatitude); // Convert latitude to double
                 epiloges[i][1] = Double.parseDouble(airportLongitude); // Convert longitude to double
             } catch (NumberFormatException e) {
-                System.err.println("Error parsing latitude or longitude for airport: " + aerodromia[airportIndex]);
+                System.err.println("Error parsing latitude or longitude for airport: " + airportsArray[airportIndex]);
             }
         }
         
