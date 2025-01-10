@@ -162,13 +162,18 @@ public class Main2 {
 
 
         int[][] kilometersDistance = new int[numberOfDestinations][numberOfDestinations];
-        //gemizei pinaka me apostasis apo kathe perioxi se kathe perioxi
-        for (int row = 0; row < numberOfDestinations-1; row++) {
+        // Γεμίζει τον πίνακα με αποστάσεις από κάθε περιοχή σε κάθε περιοχή
+        for (int row = 0; row < numberOfDestinations - 1; row++) {
             for (int column = row; column < numberOfDestinations; column++) {
-                kilometersDistance[row][column] = hd.haversine(epiloges[row][0], epiloges[row][1], epiloges[column][0], epiloges[column][1]);
+                double distance = HaversineDistance.haversine(
+                epiloges[row][0], epiloges[row][1], 
+                epiloges[column][0], epiloges[column][1]
+                );
+                kilometersDistance[row][column] = (int) Math.round(distance); // Μετατροπή σε ακέραιο αν χρειάζεται
                 kilometersDistance[column][row] = kilometersDistance[row][column];
             }
         }
+
         
         int[][] finalDestinations = new int[numberOfAirplanes][3]; //pinakas me tis diadromes pu tha kanei to kathe aeroplano
         for (int plane = 0; plane < numberOfAirplanes; plane++) {
@@ -178,10 +183,9 @@ public class Main2 {
             int i = 0;
             int lastLocation = 0;
             int remainingVisits = 3;
-            String name;
             while (remainingVisits > 0) {
                 min = Integer.MAX_VALUE;
-                for (int column = 0; column < numberOfDestinations-1; column++) {
+                for (int column = 0; column < numberOfDestinations; column++) {
                     if ((kilometersDistance[lastLocation][column] < min) && (kilometersDistance[lastLocation][column] != 0)) {
                         min = kilometersDistance[lastLocation][column];
                         minrow = lastLocation;
