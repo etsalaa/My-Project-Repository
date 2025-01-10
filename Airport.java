@@ -1,19 +1,19 @@
 public class Airport {
     private String name; // Όνομα αεροδρομίου
-    private double latitude; // Γεωγραφικό πλάτος
-    private double longitude; // Γεωγραφικό μήκος
+    private String latitude; // Γεωγραφικό πλάτος
+    private String longitude; // Γεωγραφικό μήκος
     private int visits; // Μέγιστη χωρητικότητα αεροπλάνων
 
     public Airport() {}
 
-    public Airport(String name, double latitude, double longitude) {
+    public Airport(String name, String latitude, String longitude) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
     // Κατασκευαστής
-    public Airport(String name, double latitude, double longitude, int visits) {
+    public Airport(String name, String latitude, String longitude, int visits) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -29,19 +29,19 @@ public class Airport {
         this.name = name;
     }
 
-    public double getLatitude() {
+    public String getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(String latitude) {
         this.latitude = latitude;
     }
 
-    public double getLongitude() {
+    public String getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
+    public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
 
