@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class Test {
+public class Test1 {
     public static volatile int numberOfAirplanes = -1;  // Αριθμός αεροπλάνων
     public static volatile int numberOfDestinations = -1;  // Αριθμός προορισμών
     private static final Object lock = new Object();  // Κοινό lock για συγχρονισμό
@@ -14,17 +14,17 @@ public class Test {
     public static void main(String[] args) {
         // Δημιουργία αντικειμένων για airline και airport
         Airline airline = new Airline();
-        Airport[] airports = new Airport[]{
-            new Airport("Αθήνα", 37.9838, 23.7275),
-            new Airport("Παρίσι", 48.8566, 2.3522),
-            new Airport("Λονδίνο", 51.5074, -0.1278),
-            new Airport("Μιλάνο", 45.4642, 9.1900),
-            new Airport("Βρυξέλλες", 50.8503, 4.3517),
-            new Airport("Βερολίνο", 52.5200, 13.4050),
-            new Airport("Στοκχόλμη", 59.3293, 18.0686),
-            new Airport("Όσλο", 59.9139, 10.7522),
-            new Airport("Μαδρίτη", 40.4168, -3.7038),
-            new Airport("Άμστερνταμ", 52.3676, 4.9041)
+        Airport2[] airports = {
+            new Airport2("Αθήνα", "37.9838", "23.7275"),
+            new Airport2("Παρίσι", "48.8566", "2.3522"),
+            new Airport2("Λονδίνο", "51.5074", "-0.1278"),
+            new Airport2("Μιλάνο", "45.4642", "9.1900"),
+            new Airport2("Βρυξέλλες", "50.8503", "4.3517"),
+            new Airport2("Βερολίνο", "52.5200", "13.4050"),
+            new Airport2("Στοκχόλμη", "59.3293", "18.0686"),
+            new Airport2("Όσλο", "59.9139", "10.7522"),
+            new Airport2("Μαδρίτη", "40.4168", "-3.7038"),
+            new Airport2("Άμστερνταμ", "52.3676", "4.9041")
         };
 
         // Δημιουργία πίνακα για την αποθήκευση των προορισμών που επιλέγονται

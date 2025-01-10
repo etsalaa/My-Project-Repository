@@ -24,21 +24,5 @@ public class HaversineDistance {
         // Τελική απόσταση
         return R * c;
     }
-        
-    public static void main(String[] args) {
-        // Συντεταγμένες Αθήνας
-        double lat1 = 37.9838;
-        double lon1 = 23.7275;
-        
-        // Συντεταγμένες Θεσσαλονίκης
-        double lat2 = 40.6401;
-        double lon2 = 22.9444;
-        
-        // Υπολογισμός απόστασης
-        double distance = haversine(lat1, lon1, lat2, lon2);
-        
-        // Εμφάνιση αποτελέσματος
-        System.out.printf("Η απόσταση μεταξύ Αθήνας και Θεσσαλονίκης είναι %.2f km.%n", distance);
-    }
 }
         

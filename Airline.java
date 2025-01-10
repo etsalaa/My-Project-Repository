@@ -3,7 +3,7 @@ import java.util.List;
 
 public class Airline {
     // Ιδιότητες
-    private List<Airport> airports;  
+    private List<Airport2> airports;  
     private String airline;   
     private int numberOfAirplanes;  
     private int numberOfDest;       
@@ -36,12 +36,12 @@ public class Airline {
     }
 
    
-    public void setWantedLocations(Airport airport) {
+    public void setWantedLocations(Airport2 airport) {
         airports.add(airport);
     }
 
    
-    public List<Airport> getWantedLocations() {
+    public List<Airport2> getWantedLocations() {
         return airports;
     }
 

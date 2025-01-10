@@ -1,19 +1,16 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Test3 {
-    public static volatile int numberOfAirplanes = -1;  // Αριθμός αεροπλάνων
-    public static volatile int numberOfDestinations = -1;  // Αριθμός προορισμών
-    private static final ArrayList<String> insertedAirports = new ArrayList<>(); // Λίστα για τους προορισμούς
+public class AirlineUIProgram {
+    public static volatile int numberOfAirplanes = -1;  // Number of airplanes
+    public static volatile int numberOfDestinations = -1;  // Number of destinations
+    private static final ArrayList<String> insertedAirports = new ArrayList<>(); // List of selected destinations
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> showLoginWindow());
+        SwingUtilities.invokeLater(AirlineUIProgram::showLoginWindow);
     }
 
     private static void showLoginWindow() {
@@ -40,8 +37,8 @@ public class Test3 {
 
             if (!username.isEmpty() && !password.isEmpty()) {
                 JOptionPane.showMessageDialog(frame, "Login successful!");
-                frame.dispose(); // Κλείσιμο του παραθύρου login
-                showNumberOfAirplanesWindow(); // Εμφάνιση παραθύρου αριθμού αεροπλάνων
+                frame.dispose();
+                showNumberOfAirplanesWindow();
             } else {
                 JOptionPane.showMessageDialog(frame, "Please fill in all fields!");
             }
@@ -72,8 +69,8 @@ public class Test3 {
                 numberOfAirplanes = Integer.parseInt(inputField.getText());
                 if (numberOfAirplanes > 0) {
                     JOptionPane.showMessageDialog(frame, "Number of airplanes saved: " + numberOfAirplanes);
-                    frame.dispose(); // Κλείσιμο του παραθύρου
-                    showNumberOfDestinationsWindow(); // Εμφάνιση παραθύρου αριθμού προορισμών
+                    frame.dispose();
+                    showNumberOfDestinationsWindow();
                 } else {
                     JOptionPane.showMessageDialog(frame, "Please enter a positive number!");
                 }
@@ -105,8 +102,8 @@ public class Test3 {
                 numberOfDestinations = Integer.parseInt(inputField.getText());
                 if (numberOfDestinations > 0 && numberOfDestinations <= 10) {
                     JOptionPane.showMessageDialog(frame, "Number of destinations saved: " + numberOfDestinations);
-                    frame.dispose(); // Κλείσιμο του παραθύρου
-                    showDestinationSelectionWindow(); // Εμφάνιση παραθύρου επιλογής προορισμών
+                    frame.dispose();
+                    showDestinationSelectionWindow();
                 } else {
                     JOptionPane.showMessageDialog(frame, "Please enter a number between 1 and 10!");
                 }
@@ -119,24 +116,6 @@ public class Test3 {
     }
 
     private static void showDestinationSelectionWindow() {
-        List<Integer> insertedAerodromia = new ArrayList<>();
-    
-        Airport[] airportsArray = {
-            new Airport("Αθήνα", "37.9838", "23.7275"),
-            new Airport("Παρίσι", "48.8566", "2.3522"),
-            new Airport("Λονδίνο", "51.5074", "-0.1278"),
-            new Airport("Μιλάνο", "45.4642", "9.1900"),
-            new Airport("Βρυξέλλες", "50.8503", "4.3517"),
-            new Airport("Βερολίνο", "52.5200", "13.4050"),
-            new Airport("Στοκχόλμη", "59.3293", "18.0686"),
-            new Airport("Όσλο", "59.9139", "10.7522"),
-            new Airport("Μαδρίτη", "40.4168", "-3.7038"),
-            new Airport("Άμστερνταμ", "52.3676", "4.9041")
-        };
-
-    int[] visitUpdates = new int[numberOfDestinations];
-    Arrays.fill(visitUpdates, 0); // Αρχικοποίηση με 0 επισκέψεις για όλους τους προορισμούς
-    for (int i = 0; i < numberOfDestinations; i++) {
         JFrame frame = new JFrame("Select Destinations");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 300);
@@ -161,36 +140,54 @@ public class Test3 {
         panel.add(selectButton, BorderLayout.SOUTH);
 
         selectButton.addActionListener(e -> {
-            int selectedIndex = destinationList.getSelectedIndex(); // Παίρνει την επιλογή του χρήστη
-                    if (selectedIndex != -1) {
-                        // Εμφανίζει διάλογο για εισαγωγή αριθμού επισκέψεων
-                        String visitCountInput = JOptionPane.showInputDialog(frame, 
-                        "How many times do you want to visit " + destinations[selectedIndex] + "?");
-
-                        try {
-                            int visitCount = Integer.parseInt(visitCountInput); // Μετατρέπει την είσοδο σε ακέραιο αριθμό
-                            if (visitCount > 0) {
-                                JOptionPane.showMessageDialog(frame, 
-                                "You selected: " + destinations[selectedIndex] + " with " + visitCount + " visits.");
-                    
-                                insertedAerodromia.add(selectedIndex); // Αποθηκεύει τον δείκτη της επιλεγμένης περιοχής
-                                visitUpdates[selectedIndex] = visitCount; // Αποθηκεύει τον αριθμό επισκέψεων για την περιοχή
-                            } else {
-                                JOptionPane.showMessageDialog(frame, 
-                                "Please enter a positive number of visits.");
-                            }
-                        } catch (NumberFormatException ex) {
-                            JOptionPane.showMessageDialog(frame, 
-                    "Invalid input. Please enter a valid number.");
-                        }
-                    } else {
-                        JOptionPane.showMessageDialog(frame, "Please select a destination.");
-                    }
+            List<String> selectedDestinations = destinationList.getSelectedValuesList();
+            if (selectedDestinations.size() == numberOfDestinations) {
+                insertedAirports.clear();
+                insertedAirports.addAll(selectedDestinations);
+                JOptionPane.showMessageDialog(frame, "Selected destinations: " + insertedAirports);
+                frame.dispose();
+                showSummaryWindow();
+            } else {
+                JOptionPane.showMessageDialog(frame, "Please select exactly " + numberOfDestinations + " destinations.");
+            }
         });
 
         frame.add(panel);
         frame.setVisible(true);
     }
+
+    private static void showSummaryWindow() {
+        JFrame frame = new JFrame("Summary");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 300);
+
+        JPanel panel = new JPanel(new BorderLayout());
+        JLabel titleLabel = new JLabel("Summary of Your Choices", JLabel.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        panel.add(titleLabel, BorderLayout.NORTH);
+
+        JTextArea summaryArea = new JTextArea();
+        summaryArea.setEditable(false);
+        StringBuilder summaryText = new StringBuilder("Number of Airplanes: " + numberOfAirplanes + "\n");
+        summaryText.append("Number of Destinations: ").append(numberOfDestinations).append("\n");
+        summaryText.append("Selected Destinations:\n");
+        for (String destination : insertedAirports) {
+            summaryText.append(destination).append("\n");
+        }
+        summaryArea.setText(summaryText.toString());
+        panel.add(new JScrollPane(summaryArea), BorderLayout.CENTER);
+
+        JButton nextButton = new JButton("Next");
+        panel.add(nextButton, BorderLayout.SOUTH);
+
+        nextButton.addActionListener(e -> {
+            frame.dispose();
+            new FlightFrequency(insertedAirports).showFlightFrequencyWindow();
+        });
+
+        frame.add(panel);
+        frame.setVisible(true);
     }
 
+    // Implement FlightFrequency or other next-step logic here.
 }

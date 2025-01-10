@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class FlightDestinations {
     public static void main(String[] args) {
@@ -22,7 +23,7 @@ public class FlightDestinations {
             "Geneva", "Vienna"
         };
         JList<String> destinationList = new JList<>(destinations);
-        destinationList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        destinationList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION); // Allow multiple selections
         JScrollPane scrollPane = new JScrollPane(destinationList);
         panel.add(scrollPane, BorderLayout.CENTER);
 
@@ -36,11 +37,16 @@ public class FlightDestinations {
         selectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String selectedDestination = destinationList.getSelectedValuesList();
-                if (selectedDestination != null) {
-                    JOptionPane.showMessageDialog(frame, "You selected: " + String.join(", ", selectedDestinations));
+                // Retrieve the selected values as a list
+                List<String> selectedDestinations = destinationList.getSelectedValuesList();
+
+                // Check if the list is empty or not
+                if (!selectedDestinations.isEmpty()) {
+                    // Join the list elements into a single string with commas
+                    String joinedDestinations = String.join(", ", selectedDestinations);
+                    JOptionPane.showMessageDialog(frame, "You selected: " + joinedDestinations);
                 } else {
-                    JOptionPane.showMessageDialog(frame, "Please select a destination.");
+                    JOptionPane.showMessageDialog(frame, "Please select at least one destination.");
                 }
             }
         });

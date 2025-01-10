@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,17 +8,13 @@ import java.awt.*;
 public class Main2 {
     public static volatile int numberOfAirplanes = -1;  // Αριθμός αεροπλάνων
     public static volatile int numberOfDestinations = -1;  // Αριθμός προορισμών
-        private static final Object lock = new Object();  // Κοινό lock για συγχρονισμό
+    private static final Object lock = new Object();  // Κοινό lock για συγχρονισμό
         /**
          * @param args
          */
         public static void main (String [] args) {
             //eisagwgi dedomenwn
-            Scanner s = new Scanner(System.in);
-            Airplane airplane = new Airplane();
             Airline airline = new Airline();
-            Airport airports = new Airport();
-            HaversineDistance hd = new HaversineDistance();
             //μενού για register και login
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
@@ -66,20 +61,19 @@ public class Main2 {
                 }
             });
             destinationsThread.start(); // Ξεκινάμε το thread για τους προορισμούς
-            List<Airplane> aerodromia = new ArrayList<>();
             List<Integer> insertedAerodromia = new ArrayList<>();
     
-            Airport[] airportsArray = {
-                new Airport("Αθήνα", "37.9838", "23.7275"),
-                new Airport("Παρίσι", "48.8566", "2.3522"),
-                new Airport("Λονδίνο", "51.5074", "-0.1278"),
-                new Airport("Μιλάνο", "45.4642", "9.1900"),
-                new Airport("Βρυξέλλες", "50.8503", "4.3517"),
-                new Airport("Βερολίνο", "52.5200", "13.4050"),
-                new Airport("Στοκχόλμη", "59.3293", "18.0686"),
-                new Airport("Όσλο", "59.9139", "10.7522"),
-                new Airport("Μαδρίτη", "40.4168", "-3.7038"),
-                new Airport("Άμστερνταμ", "52.3676", "4.9041")
+            Airport2[] airportsArray = {
+                new Airport2("Αθήνα", "37.9838", "23.7275"),
+                new Airport2("Παρίσι", "48.8566", "2.3522"),
+                new Airport2("Λονδίνο", "51.5074", "-0.1278"),
+                new Airport2("Μιλάνο", "45.4642", "9.1900"),
+                new Airport2("Βρυξέλλες", "50.8503", "4.3517"),
+                new Airport2("Βερολίνο", "52.5200", "13.4050"),
+                new Airport2("Στοκχόλμη", "59.3293", "18.0686"),
+                new Airport2("Όσλο", "59.9139", "10.7522"),
+                new Airport2("Μαδρίτη", "40.4168", "-3.7038"),
+                new Airport2("Άμστερνταμ", "52.3676", "4.9041")
             };
     
             int[] visitUpdates = new int[numberOfDestinations];
@@ -177,7 +171,6 @@ public class Main2 {
         int[][] finalDestinations = new int[numberOfAirplanes][3]; //pinakas me tis diadromes pu tha kanei to kathe aeroplano
         for (int plane = 0; plane < numberOfAirplanes; plane++) {
             int min;
-            int minrow = -1;
             int mincolumn = -1;
             int i = 0;
             int lastLocation = 0;
@@ -187,7 +180,6 @@ public class Main2 {
                 for (int column = 0; column < numberOfDestinations; column++) {
                     if ((kilometersDistance[lastLocation][column] < min) && (kilometersDistance[lastLocation][column] != 0)) {
                         min = kilometersDistance[lastLocation][column];
-                        minrow = lastLocation;
                         mincolumn = column;
                         //des to gia athina->parisi
                     }
@@ -211,3 +203,4 @@ public class Main2 {
         }
     }
 }
+

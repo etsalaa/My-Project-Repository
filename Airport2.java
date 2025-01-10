@@ -1,19 +1,19 @@
-public class Airport {
+public class Airport2 {
     private String name; // Όνομα αεροδρομίου
     private String latitude; // Γεωγραφικό πλάτος
     private String longitude; // Γεωγραφικό μήκος
     private int visits; // Μέγιστη χωρητικότητα αεροπλάνων
 
-    public Airport() {}
+    public Airport2() {}
 
-    public Airport(String name, String latitude, String longitude) {
+    public Airport2(String name, String latitude, String longitude) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
     // Κατασκευαστής
-    public Airport(String name, String latitude, String longitude, int visits) {
+    public Airport2(String name, String latitude, String longitude, int visits) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
