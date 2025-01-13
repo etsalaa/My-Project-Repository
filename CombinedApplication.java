@@ -213,3 +213,60 @@ public class CombinedApplication {
    
         assignDestinationsToAirplanes(distanceMatrix, visits);
     }
+    
+    //dimiourgia pinaka me to poies diadromes tha kanei to kathe aeroplano
+
+    public static void assignDestinationsToAirplanes(int[][] distanceMatrix, int[] visits) {
+        int[][] airplaneAssignments = new int[numberOfAirplanes][3]; // kathe aeroplanw kanei 3 diadromes
+        int[] remainingVisits = visits.clone();
+   
+        for (int airplane = 0; airplane < numberOfAirplanes; airplane++) {
+            int lastLocation = -1; // arxikopoioume se -1 gia default start location (Aerodromio tis epilogis mas)
+            double totalDistance = 0;
+            StringBuilder result = new StringBuilder("Airplane " + (airplane + 1) + " visits: ");
+   
+            for (int assignment = 0; assignment < 3; assignment++) {
+                int nearestDestination = -1;
+                int minimumDistance = Integer.MAX_VALUE;
+   
+                // vriskume ton kontinotero proorismo pou exei remaining visits
+                for (int destination = 0; destination < numberOfDestinations; destination++) {
+                    if (remainingVisits[destination] > 0 && destination != lastLocation &&
+                        distanceMatrix[lastLocation == -1 ? 0 : lastLocation][destination] < minimumDistance) {
+                        nearestDestination = destination;
+                        minimumDistance = distanceMatrix[lastLocation == -1 ? 0 : lastLocation][destination];
+                    }
+                }
+   
+                // kanume assign kai enimeronume tous pinakes
+                if (nearestDestination != -1) {
+                    airplaneAssignments[airplane][assignment] = nearestDestination;
+                    remainingVisits[nearestDestination]--;
+                    totalDistance += minimumDistance;
+                    lastLocation = nearestDestination;
+   
+                    result.append(insertedAirports.get(nearestDestination)).append(", ");
+                } else {
+                    result.append("No more destinations available, ");
+                }
+            }
+   
+       
+            if (result.length() > 0) {
+                result.setLength(result.length() - 2);
+            }
+   
+            result.append("\nTotal Distance: ").append(totalDistance).append(" km");
+   
+            JOptionPane.showMessageDialog(null, result.toString(), "Airplane Assignments", JOptionPane.INFORMATION_MESSAGE);
+        }
+   
+        // elegxos an thelei kapoios proorismos visits pu den boresan na ginun
+        for (int destination = 0; destination < numberOfDestinations; destination++) {
+            if (remainingVisits[destination] > 0) {
+                JOptionPane.showMessageDialog(null, "Remaining visits for " +
+                        insertedAirports.get(destination) + ": " + remainingVisits[destination],
+                        "Unfulfilled Visits", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+    }
