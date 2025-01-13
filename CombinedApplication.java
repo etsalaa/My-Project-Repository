@@ -151,4 +151,65 @@ public class CombinedApplication {
         currentFrame.dispose(); // Close the current frame
         SwingUtilities.invokeLater(LoginWindow::showLoginWindow); // Redirect to login window
     }
+//parathiro gia eisagogi arithmou proorismwn
 
+    public static void showNumberOfDestinationsWindow() {
+        JFrame frame = new JFrame("Number of Destinations");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 150);
+   
+        JPanel panel = new JPanel(new GridLayout(2, 1));
+        panel.add(new JLabel("Enter the number of destinations:"));
+   
+        JTextField inputField = new JTextField();
+        panel.add(inputField);
+   
+        JButton submitButton = new JButton("Submit");
+        frame.add(panel, BorderLayout.CENTER);
+        frame.add(submitButton, BorderLayout.SOUTH);
+   
+        submitButton.addActionListener(e -> {
+            try {
+                numberOfDestinations = Integer.parseInt(inputField.getText());
+                if (numberOfDestinations > 0 && numberOfDestinations <= 10) {
+                    JOptionPane.showMessageDialog(frame, "Number of destinations saved: " + numberOfDestinations);
+                    frame.dispose();
+                    DestinationSelectionWindow.showDestinationSelectionWindow();
+                } else {
+                    JOptionPane.showMessageDialog(frame, "Please enter a number between 1 and 10!");
+                }
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(frame, "Please enter a valid number!");
+            }
+        });
+   
+        frame.setVisible(true);
+    }
+
+    //ypologismos xiliometrwn gia tis eisigmenes diadromes
+
+    public static void calculateDistancesAndAssignments(int[] visits) {
+        double[][] destinationCoordinates = new double[numberOfDestinations][2];
+        String[] mockLatitudes = {"37.9838", "48.8566", "51.5074", "45.4642", "50.8503", "52.5200", "59.3293", "59.9139", "40.4168", "52.3676"};
+        String[] mockLongitudes = {"23.7275", "2.3522", "-0.1278", "9.1900", "4.3517", "13.4050", "18.0686", "10.7522", "-3.7038", "4.9041"};
+   
+        for (int i = 0; i < numberOfDestinations; i++) {
+            destinationCoordinates[i][0] = Double.parseDouble(mockLatitudes[i]);
+            destinationCoordinates[i][1] = Double.parseDouble(mockLongitudes[i]);
+        }
+   
+        int[][] distanceMatrix = new int[numberOfDestinations][numberOfDestinations];
+   
+        for (int i = 0; i < numberOfDestinations; i++) {
+            for (int j = i + 1; j < numberOfDestinations; j++) {
+                double distance = HaversineDistance2.haversine(
+                    destinationCoordinates[i][0], destinationCoordinates[i][1],
+                    destinationCoordinates[j][0], destinationCoordinates[j][1]
+                );
+                distanceMatrix[i][j] = (int) Math.round(distance);
+                distanceMatrix[j][i] = distanceMatrix[i][j];
+            }
+        }
+   
+        assignDestinationsToAirplanes(distanceMatrix, visits);
+    }
