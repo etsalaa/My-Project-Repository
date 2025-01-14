@@ -1,0 +1,9 @@
+com\codewarriors\CombinedApplication.class
+com\codewarriors\airport\Airport.class
+com\codewarriors\users\DestinationSelectionWindow.class
+com\codewarriors\users\LoginWindow.class
+com\codewarriors\admins\AdminMenu.class
+com\codewarriors\admins\UserManagement.class
+com\codewarriors\calculation\HaversineDistance2.class
+com\codewarriors\users\DestinationVisitsWindow.class
+com\codewarriors\users\User.class
