@@ -1,5 +1,9 @@
 package com.codewarriors;
 
+/**
+ * Hello world!
+ *
+ */
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -9,6 +13,7 @@ import com.codewarriors.calculation.*;
 import com.codewarriors.users.*;
 
 public class CombinedApplication {
+    public static List<String> selectedAirportCodes = new ArrayList<>();
     public static List<Airport> airports = new ArrayList<>();
     public static List<String> insertedAirports = new ArrayList<>();
     public static int numberOfAirplanes = 0;
@@ -18,51 +23,53 @@ public class CombinedApplication {
     public static void main(String[] args) {
         User.initializeDefaultUsers();
         initializeDefaultAirports();
-        initializeDefaultDestinations();
         SwingUtilities.invokeLater(LoginWindow::showLoginWindow);
     }
-   
-    private static void initializeDefaultDestinations() {
-        String[] defaultDestinations = {
-            "1. Αθήνα", "2. Παρίσι", "3. Λονδίνο", "4. Μιλάνο", "5. Βρυξέλλες",
-            "6. Βερολίνο", "7. Στοκχόλμη", "8. Όσλο", "9. Μαδρίτη", "10. Άμστερνταμ"
-        };
-        for (String destination : defaultDestinations) {
-            insertedAirports.add(destination);
+    
+
+    public static void initializeDefaultAirports() {
+        if (airports.isEmpty()) {
+            airports.add(new Airport("ATH", "Greece", "Athens", 37.9838, 23.7275));
+            airports.add(new Airport("LAX", "USA", "Los Angeles", 33.9416, -118.4085));
+            airports.add(new Airport("CDG", "France", "Paris", 48.8566, 2.3522));
+            airports.add(new Airport("LHR", "United Kingdom", "London", 51.5074, -0.1278));
+            airports.add(new Airport("MXP", "Italy", "Milan", 45.4642, 9.1900));
+            airports.add(new Airport("BRU", "Belgium", "Brussels", 50.8503, 4.3517));
+            airports.add(new Airport("BER", "Germany", "Berlin", 52.5200, 13.4050));
+            airports.add(new Airport("ARN", "Sweeden", "Stockholm", 59.3292, 18.0686));
+            airports.add(new Airport("OSL", "Norway", "Oslo", 59.9139, 10.7522));
+            airports.add(new Airport("MAD", "Spain", "Madrid", 40.4168, -3.7038));
+            airports.add(new Airport("AMS", "Netherlands", "Amsterdam", 52.3676, 4.9041));
         }
     }
-   
 
-    private static void initializeDefaultAirports() {
-        airports.add(new Airport("JFK", "USA", "New York", 40.6413, -73.7781));
-        airports.add(new Airport("LAX", "USA", "Los Angeles", 33.9416, -118.4085));
-    }
+
     public static void manageDestinations() {
         JFrame frame = new JFrame("Manage Destinations");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(400, 300);
-   
+    
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-   
-        // Dimiourgia pinaka aerodromiwn
+    
+        // Dixnei ta aerodromia
         for (Airport airport : airports) {
-            panel.add(new JLabel(airport.getCity() + " - " + airport.getCountry()));
+            panel.add(new JLabel(airport.getCode() + " - " + airport.getCity() + " - " + airport.getCountry()));
         }
-   
+    
         JButton addDestinationButton = new JButton("Add Destination");
         panel.add(addDestinationButton);
-   
+    
         frame.add(panel, BorderLayout.CENTER);
-   
-       
+    
+        // Prosthetei proorismous o admin
         addDestinationButton.addActionListener(e -> {
             JTextField codeField = new JTextField();
             JTextField countryField = new JTextField();
             JTextField cityField = new JTextField();
             JTextField latitudeField = new JTextField();
             JTextField longitudeField = new JTextField();
-   
+    
             int result = JOptionPane.showConfirmDialog(
                 null,
                 new Object[] {
@@ -75,8 +82,8 @@ public class CombinedApplication {
                 "Add New Destination",
                 JOptionPane.OK_CANCEL_OPTION
             );
-
-        if (result == JOptionPane.OK_OPTION) {
+    
+            if (result == JOptionPane.OK_OPTION) {
                 try {
                     String code = codeField.getText().trim();
                     String country = countryField.getText().trim();
@@ -89,9 +96,9 @@ public class CombinedApplication {
                     } else {
                         Airport newAirport = new Airport(code, country, city, latitude, longitude);
                         airports.add(newAirport);
-                        JOptionPane.showMessageDialog(frame, "New destination added: " + city + ", " + country);
+                        JOptionPane.showMessageDialog(frame, "New destination added: " + code + ", " + city + ", " + country);
                         frame.dispose();
-                        manageDestinations(); // Refresh the list of destinations
+                        manageDestinations(); 
                     }
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(frame, "Invalid latitude or longitude!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -100,9 +107,8 @@ public class CombinedApplication {
         });
         frame.setVisible(true);
     }
-  
-    //parathiro gia eisagwgi arithmou aeroplanwn
-
+    
+    // parathiro pou dixnei tin eisagwgi arithmou aeroplanwn
     public static void showNumberOfAirplanesWindow() {
         JFrame frame = new JFrame("Number of Airplanes");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -137,70 +143,80 @@ public class CombinedApplication {
     }
     public static void addNewDestination(String destination) {
         if (destination != null && !destination.trim().isEmpty()) {
-            insertedAirports.add(destination); // Add to the list of destinations
+            insertedAirports.add(destination); 
             JOptionPane.showMessageDialog(null, "New destination added: " + destination);
         } else {
             JOptionPane.showMessageDialog(null, "Invalid destination!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
-    //logout
     
+    //kanei logout kai redirect
     public static void logout(JFrame currentFrame) {
-        loggedInUser = null; // Clear the logged-in user
-        currentFrame.dispose(); // Close the current frame
-        SwingUtilities.invokeLater(LoginWindow::showLoginWindow); // Redirect to login window
+        loggedInUser = null; 
+        currentFrame.dispose(); 
+        SwingUtilities.invokeLater(LoginWindow::showLoginWindow); 
     }
-//parathiro gia eisagogi arithmou proorismwn
-
+    
+    //parathiro pou dixnei tin eisagwgi arithmou proorismwn
     public static void showNumberOfDestinationsWindow() {
         JFrame frame = new JFrame("Number of Destinations");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(300, 150);
-   
+    
         JPanel panel = new JPanel(new GridLayout(2, 1));
         panel.add(new JLabel("Enter the number of destinations:"));
-   
+    
         JTextField inputField = new JTextField();
         panel.add(inputField);
-   
+    
         JButton submitButton = new JButton("Submit");
         frame.add(panel, BorderLayout.CENTER);
         frame.add(submitButton, BorderLayout.SOUTH);
-   
+    
         submitButton.addActionListener(e -> {
             try {
                 numberOfDestinations = Integer.parseInt(inputField.getText());
-                if (numberOfDestinations > 0 && numberOfDestinations <= 10) {
+                if (numberOfDestinations > 0 && numberOfDestinations <= airports.size()) {
                     JOptionPane.showMessageDialog(frame, "Number of destinations saved: " + numberOfDestinations);
                     frame.dispose();
                     DestinationSelectionWindow.showDestinationSelectionWindow();
                 } else {
-                    JOptionPane.showMessageDialog(frame, "Please enter a number between 1 and 10!");
+                    JOptionPane.showMessageDialog(frame, "Please enter a number between 1 and " + airports.size());
                 }
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(frame, "Please enter a valid number!");
             }
         });
-   
+    
         frame.setVisible(true);
     }
 
-    //ypologismos xiliometrwn gia tis eisigmenes diadromes
-
+    //ypologizei thn xiliometriki apostasi mesw geografikou mikous kai platous twn epilgemenwn proorismwn apo ton xrhsth
     public static void calculateDistancesAndAssignments(int[] visits) {
         double[][] destinationCoordinates = new double[numberOfDestinations][2];
-        String[] mockLatitudes = {"37.9838", "48.8566", "51.5074", "45.4642", "50.8503", "52.5200", "59.3293", "59.9139", "40.4168", "52.3676"};
-        String[] mockLongitudes = {"23.7275", "2.3522", "-0.1278", "9.1900", "4.3517", "13.4050", "18.0686", "10.7522", "-3.7038", "4.9041"};
-   
-        for (int i = 0; i < numberOfDestinations; i++) {
-            destinationCoordinates[i][0] = Double.parseDouble(mockLatitudes[i]);
-            destinationCoordinates[i][1] = Double.parseDouble(mockLongitudes[i]);
+        double[] mockLatitudes = new double[numberOfDestinations];
+        double[] mockLongitudes = new double[numberOfDestinations];
+
+        int i = 0;
+        for (String selectedCode : selectedAirportCodes) {
+            for (Airport airport : CombinedApplication.airports) { 
+                if (airport.getCode().equals(selectedCode)) {
+                    mockLatitudes[i] = airport.getLatitude();
+                    mockLongitudes[i] = airport.getLongitude();
+                    i++;  
+                    break;  
+                }
+            }
         }
-   
+    
+        for (i = 0; i < numberOfDestinations; i++) {
+            destinationCoordinates[i][0] = (mockLatitudes[i]);
+            destinationCoordinates[i][1] = (mockLongitudes[i]);
+        }
+    
         int[][] distanceMatrix = new int[numberOfDestinations][numberOfDestinations];
-   
-        for (int i = 0; i < numberOfDestinations; i++) {
+    
+        for (i = 0; i < numberOfDestinations; i++) {
             for (int j = i + 1; j < numberOfDestinations; j++) {
                 double distance = HaversineDistance2.haversine(
                     destinationCoordinates[i][0], destinationCoordinates[i][1],
@@ -210,26 +226,23 @@ public class CombinedApplication {
                 distanceMatrix[j][i] = distanceMatrix[i][j];
             }
         }
-   
+    
         assignDestinationsToAirplanes(distanceMatrix, visits);
     }
     
-    //dimiourgia pinaka me to poies diadromes tha kanei to kathe aeroplano
-
     public static void assignDestinationsToAirplanes(int[][] distanceMatrix, int[] visits) {
-        int[][] airplaneAssignments = new int[numberOfAirplanes][3]; // kathe aeroplanw kanei 3 diadromes
-        int[] remainingVisits = visits.clone();
-   
+        int[][] airplaneAssignments = new int[numberOfAirplanes][3]; // kathe aeroplanw mporei na kanei 3 diadromes
+        int[] remainingVisits = visits.clone(); 
+    
         for (int airplane = 0; airplane < numberOfAirplanes; airplane++) {
-            int lastLocation = -1; // arxikopoioume se -1 gia default start location (Aerodromio tis epilogis mas)
+            int lastLocation = -1; 
             double totalDistance = 0;
             StringBuilder result = new StringBuilder("Airplane " + (airplane + 1) + " visits: ");
-   
+    
             for (int assignment = 0; assignment < 3; assignment++) {
                 int nearestDestination = -1;
                 int minimumDistance = Integer.MAX_VALUE;
-   
-                // vriskume ton kontinotero proorismo pou exei remaining visits
+    
                 for (int destination = 0; destination < numberOfDestinations; destination++) {
                     if (remainingVisits[destination] > 0 && destination != lastLocation &&
                         distanceMatrix[lastLocation == -1 ? 0 : lastLocation][destination] < minimumDistance) {
@@ -237,31 +250,28 @@ public class CombinedApplication {
                         minimumDistance = distanceMatrix[lastLocation == -1 ? 0 : lastLocation][destination];
                     }
                 }
-   
-                // kanume assign kai enimeronume tous pinakes
+    
                 if (nearestDestination != -1) {
                     airplaneAssignments[airplane][assignment] = nearestDestination;
-                    remainingVisits[nearestDestination]--;
+                    remainingVisits[nearestDestination]--; 
                     totalDistance += minimumDistance;
-                    lastLocation = nearestDestination;
-   
+                    lastLocation = nearestDestination; 
+    
                     result.append(insertedAirports.get(nearestDestination)).append(", ");
                 } else {
                     result.append("No more destinations available, ");
                 }
             }
-   
-       
+    
             if (result.length() > 0) {
                 result.setLength(result.length() - 2);
             }
-   
+    
             result.append("\nTotal Distance: ").append(totalDistance).append(" km");
-   
+    
             JOptionPane.showMessageDialog(null, result.toString(), "Airplane Assignments", JOptionPane.INFORMATION_MESSAGE);
         }
-   
-        // elegxos an thelei kapoios proorismos visits pu den boresan na ginun
+    
         for (int destination = 0; destination < numberOfDestinations; destination++) {
             if (remainingVisits[destination] > 0) {
                 JOptionPane.showMessageDialog(null, "Remaining visits for " +
@@ -270,3 +280,5 @@ public class CombinedApplication {
             }
         }
     }
+}
+
