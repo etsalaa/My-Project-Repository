@@ -52,7 +52,7 @@ public class CombinedApplication {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
     
-        // Dixnei ta aerodromia
+        // Shows the airports
         for (Airport airport : airports) {
             panel.add(new JLabel(airport.getCode() + " - " + airport.getCity() + " - " + airport.getCountry()));
         }
@@ -62,7 +62,7 @@ public class CombinedApplication {
     
         frame.add(panel, BorderLayout.CENTER);
     
-        // Prosthetei proorismous o admin
+        // Admin adds new locations
         addDestinationButton.addActionListener(e -> {
             JTextField codeField = new JTextField();
             JTextField countryField = new JTextField();
@@ -108,7 +108,7 @@ public class CombinedApplication {
         frame.setVisible(true);
     }
     
-    // parathiro pou dixnei tin eisagwgi arithmou aeroplanwn
+    // Window where the user enters the number of the airplanes (each airplane does 3 trips starting from athens airport)
     public static void showNumberOfAirplanesWindow() {
         JFrame frame = new JFrame("Number of Airplanes");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -150,14 +150,14 @@ public class CombinedApplication {
         }
     }
     
-    //kanei logout kai redirect
+    // Logout and redirect to login page
     public static void logout(JFrame currentFrame) {
         loggedInUser = null; 
         currentFrame.dispose(); 
         SwingUtilities.invokeLater(LoginWindow::showLoginWindow); 
     }
     
-    //parathiro pou dixnei tin eisagwgi arithmou proorismwn
+    // Window where the user enters the destinations he wants to visit
     public static void showNumberOfDestinationsWindow() {
         JFrame frame = new JFrame("Number of Destinations");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -191,7 +191,7 @@ public class CombinedApplication {
         frame.setVisible(true);
     }
 
-    //ypologizei thn xiliometriki apostasi mesw geografikou mikous kai platous twn epilgemenwn proorismwn apo ton xrhsth
+    // Calculates the distance between the location the user wants to visit using the Haversine method (uses latitude and longitude of every pair of locations)
     public static void calculateDistancesAndAssignments(int[] visits) {
         double[][] destinationCoordinates = new double[numberOfDestinations][2];
         double[] mockLatitudes = new double[numberOfDestinations];
@@ -227,25 +227,37 @@ public class CombinedApplication {
             }
         }
     
-        assignDestinationsToAirplanes(distanceMatrix, visits);
+        assignDestinationsToAirplanes(distanceMatrix, visits, destinationCoordinates);
     }
     
-    public static void assignDestinationsToAirplanes(int[][] distanceMatrix, int[] visits) {
-        int[][] airplaneAssignments = new int[numberOfAirplanes][3]; // kathe aeroplanw mporei na kanei 3 diadromes
+    // Assigns destinations to the airplanes (each airplane visits three destinations starting from athens airport)
+    public static void assignDestinationsToAirplanes(int[][] distanceMatrix, int[] visits, double[][] destinationCoordinates) {
+        int[][] airplaneAssignments = new int[numberOfAirplanes][3]; // Each airplane visits three destinations
         int[] remainingVisits = visits.clone(); 
     
         for (int airplane = 0; airplane < numberOfAirplanes; airplane++) {
-            int lastLocation = -1; 
+            int lastLocation = -1; // Starting location is athens airport
             double totalDistance = 0;
             StringBuilder result = new StringBuilder("Airplane " + (airplane + 1) + " visits: ");
-    
+
+            
             for (int assignment = 0; assignment < 3; assignment++) {
                 int nearestDestination = -1;
                 int minimumDistance = Integer.MAX_VALUE;
-    
+
+                
                 for (int destination = 0; destination < numberOfDestinations; destination++) {
-                    if (remainingVisits[destination] > 0 && destination != lastLocation &&
-                        distanceMatrix[lastLocation == -1 ? 0 : lastLocation][destination] < minimumDistance) {
+                    if (lastLocation == -1) {
+
+                        // The coordinates of athens airport at the start
+
+                        double min = HaversineDistance2.haversine(37.9838, 23.7275, destinationCoordinates[destination][0], destinationCoordinates[destination][1]);
+                        if (min < minimumDistance && min != 0 && remainingVisits[destination] > 0) {
+                            nearestDestination = destination;
+                            minimumDistance = (int) min;
+                        }
+                    } else if (remainingVisits[destination] > 0 && destination != lastLocation &&
+                        distanceMatrix[lastLocation][destination] < minimumDistance) {
                         nearestDestination = destination;
                         minimumDistance = distanceMatrix[lastLocation == -1 ? 0 : lastLocation][destination];
                     }
