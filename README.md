@@ -16,6 +16,13 @@
 ```bash
 git clone https://github.com/AnastasiosDrimis/My-Project-Repository.git
 cd My-Project-Repository
+cd airplaneoptimization
+cd src
+cd main
+cd java
+cd com
+cd codewarrios
+java CombinedApplication
  ```
 
 
@@ -25,7 +32,7 @@ cd My-Project-Repository
 - Επισκεφτείτε το [GitHub repository](https://github.com/AnastasiosDrimis/My-Project-Repository).
 - Πατήστε το κουμπί **Code** και επιλέξτε την επιλογή **Download ZIP**.
 - Αποσυμπιέστε το ZIP στον υπολογιστή σας.
-- Ανοίξτε τα αρχεία του project και εκτελέστε το `.jar` αρχείο.
+- Ανοίξτε τα αρχεία του project και εκτελέστε το `.jar` αρχείο (βρίσκεται στον target φάκελο).
 
 ### 3. Εκτέλεση μέσω Command Line
 
@@ -55,6 +62,7 @@ java -jar airplaneoptimization-1.0-SNAPSHOT.jar
 - Προσθέτει αεροδρόμια δίνοντας τα απαραίτητα στοιχεία.
 
 Σε περίπτωση λάθους κατά την εισαγωγή στοιχείων, το πρόγραμμα εμφανίζει τα κατάλληλα μηνύματα σφάλματος.
+Όσο δεν κλείνετε την εφαρμογή, μπορείτε να κάνετε login με τα στοιχεία των νέων χρηστών που δημιουργείτε, αλλά και να βλέπετε στην λίστα τους προορισμούς που προσθέσατε.
 
 ### Διαχείριση Χρήστη
 
@@ -82,10 +90,6 @@ java -jar airplaneoptimization-1.0-SNAPSHOT.jar
 
 - Βεβαιωθείτε ότι έχετε το JDK εγκατεστημένο στον υπολογιστή σας για να μπορέσετε να μεταγλωττίσετε και να τρέξετε το πρόγραμμα μέσω του `javac` ή του `java`.
 - Αν η εφαρμογή δεν λειτουργεί σωστά, ελέγξτε τα δεδομένα εισόδου και βεβαιωθείτε ότι οι κωδικοί και οι παράμετροι εισαγωγής είναι σωστοί.
-
-## Εξαρτήσεις
-
-- Το πρόγραμμα εξαρτάται από τα εργαλεία και τις βιβλιοθήκες που παρέχονται στο JDK (Java Development Kit).
 
 ## Άδειες Χρήσης
 
